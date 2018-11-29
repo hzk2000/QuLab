@@ -39,7 +39,7 @@ class Driver(BaseDriver):
         QReal('Offset',unit='V',ch=1,set_cmd='SOUR%(ch)d:VOLT:OFFS %(value)f%(unit)s',get_cmd='SOUR%(ch)d:VOLT:OFFS?'),
         QReal('Amplitude',unit='VPP',ch=1,set_cmd='SOUR%(ch)d:VOLT:AMPL %(value)f%(unit)s',get_cmd='SOUR%(ch)d:VOLT:AMPL?'),
     ]
-    
+
     def reset(self,delay1=0,delay2=0):
         #init
         self.write('*CLS')
@@ -48,13 +48,13 @@ class Driver(BaseDriver):
         self.write('SOURce:ROSCillator:SOURce EXT')
         self.write('TRIGger:SEQuence:SOURce EXTernal')
         self.write('SOURce1:BURSt:STATe ON')
-        self.write('SOURce1:BURSt:NCYCles 1')
+        self.setValue('Burst Ncycles',1,ch=1)
         self.write('SOURce1:BURSt:MODE TRIGgered')
-        self.write('SOURce1:BURSt:DELay %fus' %delay1)
+        self.setValue('Burst Tdelay',delay1,unit='us',ch=1)
         self.write('SOURce2:BURSt:STATe ON')
-        self.write('SOURce2:BURSt:NCYCles 1')
+        self.setValue('Burst Ncycles',1,ch=2)
         self.write('SOURce2:BURSt:MODE TRIGgered')
-        self.write('SOURce2:BURSt:TDELay %fns' %delay2)
+        self.setValue('Burst Tdelay',delay2,unit='us',ch=2)
 
 
     #在创建好的波形文件中，写入或者更新具体波形
