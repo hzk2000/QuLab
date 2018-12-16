@@ -50,11 +50,11 @@ class Driver(BaseDriver):
         self.write('SOURce1:BURSt:STATe ON')
         self.setValue('Burst Ncycles',1,ch=1)
         self.write('SOURce1:BURSt:MODE TRIGgered')
-        self.setValue('Burst Tdelay',delay1,unit='us',ch=1)
+        self.setValue('Burst Tdelay',delay1,unit='ns',ch=1)
         self.write('SOURce2:BURSt:STATe ON')
         self.setValue('Burst Ncycles',1,ch=2)
         self.write('SOURce2:BURSt:MODE TRIGgered')
-        self.setValue('Burst Tdelay',delay2,unit='us',ch=2)
+        self.setValue('Burst Tdelay',delay2,unit='ns',ch=2)
 
 
     #在创建好的波形文件中，写入或者更新具体波形

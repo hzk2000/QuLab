@@ -12,6 +12,8 @@ class Driver(BaseDriver):
     quants = [
         QOption('Sweep', value='ON',
             set_cmd='INIT:CONT %(option)s', options=[('OFF', 'OFF'), ('ON', 'ON')]),
+        QOption('Marker', value='ON',
+            set_cmd=':CALCulate:MARKer1:STATe %(option)s', options=[('OFF', 'OFF'), ('ON', 'ON')]),
         QOption('Trace Mode', value='WRIT',ch=1,
             set_cmd='TRAC%(ch)d:MODE %(option)s',get_cmd='TRAC%(ch)d:MODE?',
             options=[('Write', 'WRIT'), ('Maxhold', 'MAXH'),('Minhold','MINH'),
@@ -19,7 +21,10 @@ class Driver(BaseDriver):
 
         QReal('Frequency Start', unit='Hz', set_cmd='SENS:FREQ:STAR %(value)e%(unit)s', get_cmd='SENS:FREQ:STAR?'),
         QReal('Frequency Stop', unit='Hz', set_cmd='SENS:FREQ:STOP %(value)e%(unit)s', get_cmd='SENS:FREQ:STOP?'),
+        QReal('Marker_center', unit='Hz', set_cmd=':CALCulate:MARKer1:X %(value)e', get_cmd=':CALCulate:MARKer1:X?'),
+        QReal('Marker_amp', unit='dBm', set_cmd=':CALCulate:MARKer1:Y %(value)e', get_cmd=':CALCulate:MARKer1:Y?'),
         QInteger('Sweep Points',value=601, set_cmd=':SWE:POIN %(value)d',get_cmd=':SWE:POIN?')
+
     ]
 
     def get_Trace(self, average=1, ch=1):

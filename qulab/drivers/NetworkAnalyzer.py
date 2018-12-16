@@ -19,6 +19,8 @@ class Driver(BaseDriver):
           set_cmd='INIT:CONT %(option)s', options=[('OFF', 'OFF'), ('ON', 'ON')]),
         QInteger('Number of points', value=201, unit='',
           set_cmd='SENS:SWE:POIN %(value)d', get_cmd='SENS:SWE:POIN?'),
+        QInteger('Bandwidth', value=100, unit='',
+          set_cmd='SENS:BAND %(value)d', get_cmd='SENS:BAND?'),
         QOption('Format', value='MLOG',
           set_cmd='CALC:FORM %(option)s', get_cmd='CALC:FORM?',
           options=[('Mlinear', 'MLIN'),

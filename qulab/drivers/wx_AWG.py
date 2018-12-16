@@ -67,15 +67,17 @@ class Driver(BaseDriver):
         self.write('*RST')
         #选择特定function
         self.write(':FUNC:MODE USER')
-        #设置采样率
-        self.write(':FREQ:RAST %d' %samplerate)
         #设置外部时钟
         self.write(':ROSCillator:SOURce EXTernal')
         #清除原有波形
         self.write(':INST:SEL CH1')
         self.write(':TRAC:DEL:ALL')
+        #设置采样率
+        self.write(':FREQ:RAST %d' %samplerate)
         self.write(':INST:SEL CH3')
         self.write(':TRAC:DEL:ALL')
+        #设置采样率
+        self.write(':FREQ:RAST %d' %samplerate)
         #将几个通道的设置设为同一个，详见manual
         # self.write(':INST:COUPle:STATe ON')
         # self.write(':INIT:CONT OFF')
@@ -126,13 +128,14 @@ class Driver(BaseDriver):
         self.write(':TRIG:COUN 1')
         self.write(':TRIG:DEL %d' %trigdelay)
 
-    def ruwave1(self,amp=2,offset=0,ch=1,trac=1):
+    #remove amplitude & trigdelay
+    def ruwave1(self,ch=1,trac=1,offset=0):
         self.write(':INST:SEL %d' %ch)
-        self.write(':VOLT:LEV:AMPL %f' %amp)
         self.write(':VOLT:LEV:OFFS %f' %offset)
         self.write(':TRAC:SEL %d' %trac)
         self.write(':OUTP ON')
-        self.write(':INIT:CONT ON')
+        self.write(':INIT:CONT OFF')
+        self.write(':TRIG:COUN 1')
 
     def ruwave2(self,amp=2,ch=1,trac=1):
         self.write(':INST:SEL %d' %ch)

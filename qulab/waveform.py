@@ -246,22 +246,40 @@ class Gaussian(Waveform):
         c = self.width/(4*np.sqrt(2*np.log(2)))
         self.timeFunc = lambda x: np.exp(-0.5*(x/c)**2)
 
+class Drag_gauss(Waveform):
+    def __init__(self, width, samplerate):
+        super(Drag_gauss, self).__init__(domain=(-0.5*width,0.5*width))
+        self.width = width*samplerate
+        self.samplerate = samplerate
+        c = self.width/(4*np.sqrt(2*np.log(2)))
+        self.timeFunc = lambda x: np.exp(-0.5*(x*samplerate/c)**2)*(-samplerate*x/np.power(c,2))
+
 class Sin(Waveform):
     def __init__(self, w, phi=0):
         super(Sin, self).__init__(domain=(-np.inf, np.inf))
         self.timeFunc = lambda t: np.sin(w*t+phi)
 
 class Cos(Waveform):
-    def __init__(self, w, phi=0):
-        super(Cos, self).__init__(domain=(-np.inf, np.inf))
-        self.timeFunc = lambda t: np.cos(w*t+phi)
+    def __init__(self, width):
+        super(Cos, self).__init__(domain=(-width,0))
+        self.width = width
+        self.timeFunc = lambda x: (1-np.cos(2*np.pi*x/self.width))/2
+        # super(Cos, self).__init__(domain=(-np.inf, np.inf))
+        # self.timeFunc = lambda t: np.cos(w*t+phi)
+
+class Drag_cos(Waveform):
+    def __init__(self, width, samplerate):
+        super(Drag_cos, self).__init__(domain=(-width,0))
+        self.width = width*samplerate
+        self.samplerate = samplerate
+        self.timeFunc = lambda x: np.pi*np.sin(2*np.pi*x*samplerate/self.width)/self.width
 
 class Sinc(Waveform):
     def __init__(self, a):
         super(Sinc, self).__init__(domain=(-np.inf, np.inf))
         self.timeFunc = lambda t: sinc(a*t)
 
-__all__ = ['Waveform', 'DC', 'Interpolation', 'Step', 'Gaussian', 'Sin', 'Cos', 'Sinc']
+__all__ = ['Waveform', 'DC', 'Interpolation', 'Step', 'Gaussian', 'Sin', 'Cos', 'Sinc','Drag_gauss','Drag_cos']
 
 if __name__ == "__main__":
     w = (0.7*Step(0.7)<<1) - (0.2*Step(0.2)) - (0.5*Step(0)>>1)
